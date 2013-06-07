@@ -33,6 +33,15 @@ module.exports = (Impromptu, register, wp) ->
           version = data.toString().match /\$wp_version = '([^']+)';/;
           done err, version.pop()
 
+  register 'tablePrefix',
+    update: (done) ->
+      wp.root (err, wpRoot) ->
+        return done err, false unless wpRoot
+
+        fs.readFile "#{wpRoot}/wp-config.php", (err, data) ->
+          match = data.toString().match /\$table_prefix  = ('|")?(.+)\1;/
+          return done err, match?.pop()
+
   # Usage
   #
   # section 'wp:WP_DEBUG',
