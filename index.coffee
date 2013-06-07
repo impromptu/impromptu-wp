@@ -41,6 +41,14 @@ module.exports = (Impromptu, register, wp) ->
           version = data.toString().match /\$wp_version = '([^']+)';/;
           done err, version.pop()
 
+  register 'majorVersion',
+    update: (done) ->
+      wp.version (err, version) ->
+        return done err, false unless version
+
+        major = version.match(/^[0-9\.]+/).pop?()
+        done err, major
+
   register 'tablePrefix',
     update: (done) ->
       wp.root (err, wpRoot) ->
