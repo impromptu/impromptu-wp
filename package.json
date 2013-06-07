@@ -27,7 +27,8 @@
     "test": "mocha test/*.coffee --compilers coffee:coffee-script"
   },
   "dependencies": {
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "underscore": "~1.4.4"
   },
   "devDependencies": {
     "coffee-script": "~1.6.2",
