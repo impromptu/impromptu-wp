@@ -3,6 +3,14 @@ path = require 'path'
 fs = require 'fs'
 _ = require 'underscore'
 
+findCore = (pathToConfig) ->
+  return pathToConfig if fs.existsSync "#{pathToConfig}/wp-includes"
+  return false unless fs.existsSync "#{pathToConfig}/index.php"
+
+  indexFile = fs.readFileSync "#{pathToConfig}/index.php"
+  match = indexFile.toString().match /('|")(.*)\/wp-blog-header\.php/
+  match?.pop()
+
 module.exports = (Impromptu, register, wp) ->
   register 'isWP',
     update: (done) ->
@@ -28,8 +36,8 @@ module.exports = (Impromptu, register, wp) ->
     update: (done) ->
       wp.root (err, wpRoot) ->
         return done err, false unless wpRoot
-        versionFile = path.join wpRoot, 'wp-includes/version.php'
-        fs.readFile "#{wpRoot}/wp-includes/version.php", (err, data) ->
+        versionFile = path.join findCore(wpRoot), 'wp-includes/version.php'
+        fs.readFile versionFile, (err, data) ->
           version = data.toString().match /\$wp_version = '([^']+)';/;
           done err, version.pop()
 
