@@ -9,7 +9,7 @@ findCore = (pathToConfig) ->
 
   indexFile = fs.readFileSync "#{pathToConfig}/index.php"
   match = indexFile.toString().match /('|")(.*)\/wp-blog-header\.php/
-  match?.pop()
+  path.join pathToConfig, match?.pop()
 
 module.exports = (Impromptu, register, wp) ->
   register 'isWP',
