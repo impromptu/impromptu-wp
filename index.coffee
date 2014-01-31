@@ -75,7 +75,7 @@ module.exports = (Impromptu, register, wp) ->
           lines = data.toString().split('\n')
 
           async.map lines, (line, cb) ->
-            matches = line.match /^define\(('|")([^'"]+)\1,\s+('|")?([^'"]*)\1?\);/
+            matches = line.match /^define\(\s*('|")([^'"]+)\1,\s*('|")?([^'"]*)\1?\s*\);/
             return cb null, false unless matches
 
             cb null, [matches[2], matches[4]]
