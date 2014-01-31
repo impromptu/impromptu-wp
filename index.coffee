@@ -5,6 +5,7 @@ _ = require 'underscore'
 
 findCore = (pathToConfig) ->
   return pathToConfig if fs.existsSync "#{pathToConfig}/wp-includes"
+  return "#{pathToConfig}/src" if fs.existsSync "#{pathToConfig}/src/wp-includes"
   return false unless fs.existsSync "#{pathToConfig}/index.php"
 
   indexFile = fs.readFileSync "#{pathToConfig}/index.php"
